@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System.Configuration;
 using System.Web.Mvc;
 
 namespace SsoDemo.Web.Controllers
@@ -25,6 +22,22 @@ namespace SsoDemo.Web.Controllers
             ViewBag.Message = "Your contact page.";
 
             return View();
+        }
+
+        [Authorize]
+        public ActionResult Auth()
+        {
+            return Redirect("~/");
+        }
+
+        [AllowAnonymous]
+        public ActionResult LogOff()
+        {
+            Session.Clear();
+
+            var logOffUrl = ConfigurationManager.AppSettings["AppLogOffUrl"];
+
+            return Redirect(logOffUrl);
         }
     }
 }
